@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CA Framework</string>
+    <string name="smooth_factor_label">Smooth Factor</string>
+</resources>
