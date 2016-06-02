@@ -25,11 +25,11 @@ public class MainActivity extends AppCompatActivity implements SensorSelectionSp
         SensorManager androidSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mySensorManager = MySensorManager.getInstance();
         mySensorManager.initAndroidSensorManager(androidSensorManager);
-        try {
+  /*      try {
             mySensorManager.registerSensor(Sensor.TYPE_GYROSCOPE, new int[]{0, 1, 2}, SensorManager.SENSOR_DELAY_NORMAL);
         } catch (NullAndroidSensorManagerException e) {
             Log.e(LOG_TAG, e.getLocalizedMessage());
-        }
+        }*/
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         RealtimeSensorGraphFragment realtimeSensorGraphFragment = (RealtimeSensorGraphFragment)
