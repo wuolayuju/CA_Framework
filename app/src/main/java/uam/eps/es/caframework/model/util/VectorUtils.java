@@ -9,8 +9,8 @@ public class VectorUtils {
 
     public static double module(float[] values) {
         double sum = 0;
-        for (int i = 0; i < values.length; i++) {
-            sum += Math.pow(values[i], 2);
+        for (float value : values) {
+            sum += Math.pow(value, 2);
         }
         return Math.sqrt(sum);
     }

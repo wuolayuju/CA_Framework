@@ -1,13 +1,6 @@
 package uam.eps.es.caframework.model.sensormanager;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorListener;
-
-import com.google.common.eventbus.EventBus;
-
-import java.util.List;
 
 /**
  * Created by Ari on 29/05/2016.

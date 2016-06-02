@@ -48,8 +48,8 @@ public class RealtimeSensorGraphFragment extends Fragment {
         if (representativeAxes.length != graph.getSeries().size())
             return;
         for (int i = 0; i < representativeAxes.length; i++) {
-            float value = 0.0f;
-            DataPoint dataPoint = new DataPoint(0, 0);
+            float value;
+            DataPoint dataPoint;
             switch (i) {
                 case 0:
                     value = measurement.getValue(i);
@@ -76,8 +76,6 @@ public class RealtimeSensorGraphFragment extends Fragment {
     public void setYAxisRange(Float range) {
         if(range == null) {
             graph.getViewport().setYAxisBoundsManual(false);
-            graph.getViewport().setMinY(0);
-            graph.getViewport().setMaxY(0);
         }
         else {
             graph.getViewport().setMinY(-range);

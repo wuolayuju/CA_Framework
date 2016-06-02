@@ -2,7 +2,6 @@ package uam.eps.es.caframework;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import uam.eps.es.caframework.ui.SmoothingControlsFragment;
 public class MainActivity extends AppCompatActivity implements SensorSelectionSpinnerFragment.SensorDisplayChanged, SmoothingControlsFragment.OnClutchAxesChanged {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    public MySensorManager mySensorManager;
+    private MySensorManager mySensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements SensorSelectionSp
     protected void onDestroy() {
         super.onDestroy();
         try {
-            mySensorManager.unregisterSensor(Sensor.TYPE_ACCELEROMETER);
+            mySensorManager.destroyListeners();
         } catch (NullAndroidSensorManagerException e) {
             Log.e(LOG_TAG, e.getLocalizedMessage());
         }
@@ -60,11 +59,8 @@ public class MainActivity extends AppCompatActivity implements SensorSelectionSp
         SensorSelectionSpinnerFragment sensorSelectionFragment = (SensorSelectionSpinnerFragment)
                 fm.findFragmentById(R.id.sensor_selection_fragment);
         Float currentSensorRange = sensorSelectionFragment.getCurrentSensorRange();
-        int[] currentSensorRepresentativeAxes = sensorSelectionFragment.getCurrentSensorRepresentativeAxes();
         RealtimeSensorGraphFragment graphFragment = (RealtimeSensorGraphFragment)
                 fm.findFragmentById(R.id.graph_fragment);
-        graphFragment.resetGraphData(
-                clutchIt ? currentSensorRange : null,
-                currentSensorRepresentativeAxes);
+        graphFragment.setYAxisRange(clutchIt ? currentSensorRange : null);
     }
 }

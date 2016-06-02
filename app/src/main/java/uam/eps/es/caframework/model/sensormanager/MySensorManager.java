@@ -10,7 +10,6 @@ import java.util.Map;
 
 import uam.eps.es.caframework.model.measurements.MeasurementListener;
 import uam.eps.es.caframework.model.sensormanager.exceptions.NullAndroidSensorManagerException;
-import uam.eps.es.caframework.ui.RealtimeSensorGraphFragment;
 
 /**
  * Created by Ari on 29/05/2016.
@@ -81,5 +80,12 @@ public class MySensorManager {
     private void checkAndroidSensorManager() throws NullAndroidSensorManagerException {
         if (androidSensorManager == null)
             throw new NullAndroidSensorManagerException();
+    }
+
+    public void destroyListeners() throws NullAndroidSensorManagerException {
+        checkAndroidSensorManager();
+        for (Map.Entry<Integer, MeasurementListener> entry : registeredSensorListeners.entrySet()) {
+            unregisterSensor(entry.getKey());
+        }
     }
 }
