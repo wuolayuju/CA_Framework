@@ -2,6 +2,7 @@ package uam.eps.es.caframework;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +12,9 @@ import uam.eps.es.caframework.model.sensormanager.MySensorManager;
 import uam.eps.es.caframework.model.sensormanager.exceptions.NullAndroidSensorManagerException;
 import uam.eps.es.caframework.ui.RealtimeSensorGraphFragment;
 import uam.eps.es.caframework.ui.SensorSelectionSpinnerFragment;
+import uam.eps.es.caframework.ui.SmoothingControlsFragment;
 
-public class MainActivity extends AppCompatActivity implements SensorSelectionSpinnerFragment.SensorDisplayChanged{
+public class MainActivity extends AppCompatActivity implements SensorSelectionSpinnerFragment.SensorDisplayChanged, SmoothingControlsFragment.OnClutchAxesChanged {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public MySensorManager mySensorManager;
@@ -25,11 +27,6 @@ public class MainActivity extends AppCompatActivity implements SensorSelectionSp
         SensorManager androidSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mySensorManager = MySensorManager.getInstance();
         mySensorManager.initAndroidSensorManager(androidSensorManager);
-  /*      try {
-            mySensorManager.registerSensor(Sensor.TYPE_GYROSCOPE, new int[]{0, 1, 2}, SensorManager.SENSOR_DELAY_NORMAL);
-        } catch (NullAndroidSensorManagerException e) {
-            Log.e(LOG_TAG, e.getLocalizedMessage());
-        }*/
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         RealtimeSensorGraphFragment realtimeSensorGraphFragment = (RealtimeSensorGraphFragment)
@@ -55,5 +52,19 @@ public class MainActivity extends AppCompatActivity implements SensorSelectionSp
         mySensorManager.unregisterListener(graphFragment);
         mySensorManager.registerListener(graphFragment);
         graphFragment.resetGraphData(sensorRange, sensorAxes);
+    }
+
+    @Override
+    public void toggleClutchDataToRange(boolean clutchIt) {
+        FragmentManager fm = getSupportFragmentManager();
+        SensorSelectionSpinnerFragment sensorSelectionFragment = (SensorSelectionSpinnerFragment)
+                fm.findFragmentById(R.id.sensor_selection_fragment);
+        Float currentSensorRange = sensorSelectionFragment.getCurrentSensorRange();
+        int[] currentSensorRepresentativeAxes = sensorSelectionFragment.getCurrentSensorRepresentativeAxes();
+        RealtimeSensorGraphFragment graphFragment = (RealtimeSensorGraphFragment)
+                fm.findFragmentById(R.id.graph_fragment);
+        graphFragment.resetGraphData(
+                clutchIt ? currentSensorRange : null,
+                currentSensorRepresentativeAxes);
     }
 }

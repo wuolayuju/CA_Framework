@@ -108,6 +108,18 @@ public class SensorSelectionSpinnerFragment extends Fragment implements AdapterV
         sensorSelectorSpinner = (Spinner) getActivity().findViewById(R.id.sensor_selector_spinner);
     }
 
+    public Float getCurrentSensorRange() {
+        Map<String, String> currentSensor = (Map<String, String>) sensorSelectorSpinner.getSelectedItem();
+        String sensorType = currentSensor.get("sensor_type");
+        return MySensorManager.getInstance().getSensorRange(Integer.parseInt(sensorType));
+    }
+
+    public int[] getCurrentSensorRepresentativeAxes() {
+        Map<String, String> currentSensor = (Map<String, String>) sensorSelectorSpinner.getSelectedItem();
+        String sensorType = currentSensor.get("sensor_type");
+        return MySensorManager.getInstance().getSensorRepresentativeAxes(Integer.parseInt(sensorType));
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         try {

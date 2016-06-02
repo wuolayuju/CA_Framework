@@ -66,6 +66,10 @@ public class MySensorManager {
         return androidSensorManager.getDefaultSensor(sensorType).getMaximumRange();
     }
 
+    public int[] getSensorRepresentativeAxes(int sensorType) {
+        return registeredSensorListeners.get(sensorType).getRepresentativeAxes();
+    }
+
     public void registerListener(Object listener) {
         eventBus.register(listener);
     }

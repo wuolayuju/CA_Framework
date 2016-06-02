@@ -32,4 +32,12 @@
         android:layout_below="@+id/smooth_factor_label"
         android:layout_alignParentEnd="true" />
 
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clutch_y_axis_to_sensor_range"
+        android:id="@+id/clutch_range_checkbox"
+        android:layout_below="@+id/smooth_factor_seekbar"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

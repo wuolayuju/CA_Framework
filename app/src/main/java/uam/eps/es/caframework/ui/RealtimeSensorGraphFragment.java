@@ -73,6 +73,19 @@ public class RealtimeSensorGraphFragment extends Fragment {
         currentXValue++;
     }
 
+    public void setYAxisRange(Float range) {
+        if(range == null) {
+            graph.getViewport().setYAxisBoundsManual(false);
+            graph.getViewport().setMinY(0);
+            graph.getViewport().setMaxY(0);
+        }
+        else {
+            graph.getViewport().setMinY(-range);
+            graph.getViewport().setMaxY(range);
+            graph.getViewport().setYAxisBoundsManual(true);
+        }
+    }
+
     public void resetGraphData(Float sensorRange, int[] sensorAxes) {
         currentXValue = 0;
         recreateSeries(sensorRange, sensorAxes);
@@ -80,11 +93,7 @@ public class RealtimeSensorGraphFragment extends Fragment {
 
     private void recreateSeries(Float sensorRange, int[] sensorAxes) {
         graph.getViewport().setXAxisBoundsManual(true);
-        if(sensorRange != null) {
-            graph.getViewport().setMinY(-sensorRange);
-            graph.getViewport().setMaxY(sensorRange);
-            graph.getViewport().setYAxisBoundsManual(true);
-        }
+        setYAxisRange(sensorRange);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(40);
         graph.getViewport().setXAxisBoundsManual(true);

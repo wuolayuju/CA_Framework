@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -20,6 +22,23 @@ public class SmoothingControlsFragment extends Fragment {
 
     private SeekBar smoothFactorSeekbar;
     private TextView currentSmoothFactorTextView;
+    private CheckBox setYAxisToRangeCheckbox;
+
+    private OnClutchAxesChanged clutchAxesCallback;
+
+    public interface OnClutchAxesChanged {
+        void toggleClutchDataToRange(boolean clutchIt);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            clutchAxesCallback = (OnClutchAxesChanged) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + " must implement OnClutchAxesChanged.");
+        }
+    }
 
     @Nullable
     @Override
@@ -53,6 +72,13 @@ public class SmoothingControlsFragment extends Fragment {
 
             }
         });
+
+        setYAxisToRangeCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                clutchAxesCallback.toggleClutchDataToRange(isChecked);
+            }
+        });
     }
 
     private void initializeLayoutVariables() {
@@ -60,5 +86,13 @@ public class SmoothingControlsFragment extends Fragment {
         smoothFactorSeekbar.setProgress(Math.round(MeasurementSmoothedEvent.SMOOTH_FACTOR * 100.0f));
         currentSmoothFactorTextView = (TextView) getActivity().findViewById(R.id.current_smooth_factor_textview);
         currentSmoothFactorTextView.setText(String.valueOf(MeasurementSmoothedEvent.SMOOTH_FACTOR));
+        setYAxisToRangeCheckbox = (CheckBox) getActivity().findViewById(R.id.clutch_range_checkbox);
+        setYAxisToRangeCheckbox.setChecked(false);
+    }
+
+    @Override
+    public void onDetach() {
+        clutchAxesCallback = null;
+        super.onDetach();
     }
 }

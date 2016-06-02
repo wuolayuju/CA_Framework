@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CA Framework</string>
     <string name="smooth_factor_label">Smooth Factor</string>
+    <string name="clutch_y_axis_to_sensor_range">Clutch Y Axis to sensor range</string>
 </resources>
